@@ -1,0 +1,23 @@
+pipeline {
+ agent {label 'demo'}
+ 
+ stages {
+    stage('Checkout')
+    {
+      steps {
+        git branch: 'main', credentialsId: 'GitlabCred', url: 'https://gitlab.com/wezvaprojects/terraform/dynamicsecrets.git'
+      }
+     } 
+
+  stage ("Docker Demo") {
+    steps {
+       withVault(configuration: [timeout: 60, vaultCredentialId: 'vaultCred', vaultUrl: 'http://ec2-3-110-134-89.ap-south-1.compute.amazonaws.com:8200'], vaultSecrets: [[path: 'wezvatech/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+         sh 'docker login -u $username -p $password'
+         sh 'docker build -t wezvatechcicd .'
+         sh 'docker tag wezvatechcicd adamtravis/wezvatechcicd:demo'
+         sh 'docker push adamtravis/wezvatechcicd:demo'
+       }
+    }
+  }
+ } //end of stages
+} //end of pipeline

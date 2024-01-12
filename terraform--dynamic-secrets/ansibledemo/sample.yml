@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    mytoken: TOKEN
+    myvaultp: 0.0.0.0
+  tasks:
+  - name: Install hvac via PIP
+    pip: name=hvac
+  - name: Get Secrets from Vault 
+    debug:
+      msg: "{{ lookup('hashi_vault', 'secret=wezvatech/data/ansibledemo token={{mytoken}} url=http://{{myvaultip}}:8200')}}"

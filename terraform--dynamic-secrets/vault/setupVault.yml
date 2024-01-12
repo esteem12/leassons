@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  vars:
+      vault_version: 1.13.3
+  tasks:
+  - name: Apt Update
+    apt: update_cache=yes
+
+  - name: Download binary
+    get_url:
+     url: https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip
+     dest: /tmp/vault_{{vault_version}}_linux_amd64.zip
+
+  - name: "Unzip vault archive"
+    unarchive:
+     src: /tmp/vault_{{vault_version}}_linux_amd64.zip
+     dest: /usr/local/bin
+     copy: no
+  
+  - name: Start Vault server in Dev mode
+    shell: vault server -dev -dev-listen-address="`hostname`:8200" -dev-root-token-id="wezvatoken"
