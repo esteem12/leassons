@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{deployenv}}map
+  namespace: {{deployenv}}
+data:
+  sample.conf: |
+    { "sample": {
+         "db": "{{dbhost}}.wezva.com",
+         "user": "{{dbuser}}"
+      }
+    }

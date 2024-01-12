@@ -1,0 +1,43 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: mydeployment
+  namespace: {{deployenv}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     env: CICD
+  template:
+    metadata:
+      name: testpod8
+      labels:
+        env: CICD
+    spec:
+     containers:
+       - name: c00
+         image: adamtravis/{{deployImage}}:latest
+         ports:
+          - containerPort: 8080
+         volumeMounts:
+          - name: testconfigmap
+            mountPath: "/tmp/config"
+     volumes:
+     - name: testconfigmap
+       configMap:
+         name: {{deployenv}}map
+         items:
+         - key: sample.conf
+           path: sample.conf
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: demoservice
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    env: CICD
+  type: NodePort

@@ -1,0 +1,10 @@
+[masters]
+master ansible_host=172.31.10.88 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/mastermay.pem
+
+[workers]
+worker1 ansible_host=172.31.11.188 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/mastermay.pem
+worker2 ansible_host=172.31.0.229 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/mastermay.pem
+worker3 ansible_host=172.31.13.72 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/mastermay.pem
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

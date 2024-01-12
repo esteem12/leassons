@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wezvawebapp
+  namespace: wezva-qa-ns
+data:
+   sample.conf: |
+
+            { "sample": {
+                 "db": "awesome.wezva.com",
+                 "user": "master"
+              }
+            }
+

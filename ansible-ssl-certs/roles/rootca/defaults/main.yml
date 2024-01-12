@@ -1,0 +1,18 @@
+---
+# Country name
+rootca_country: ""
+
+# Email address
+rootca_email: "{{ omit }}"
+
+# State or Province name
+rootca_state_or_province: ""
+
+# Organization
+rootca_org: ""
+
+# CA password
+rootca_password: "changeme"
+
+# Certificate Authority state:
+rootca_state: present

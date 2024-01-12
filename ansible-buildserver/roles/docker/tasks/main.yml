@@ -1,0 +1,13 @@
+- name: Update Cache # Update Cache on the container #
+  package: update_cache=yes
+
+- name: Install Docker Daemon & docker-compose 
+  package: name={{ item }} state=present
+  loop:  [ 'docker.io', 'docker-compose' ] 
+
+- name: Start Docker Service  # Start Docker Daemon #
+  service: name=docker state=started
+
+- name: Permission for user   # Allow to run Docker #
+  user: name={{demouser}} group=docker
+

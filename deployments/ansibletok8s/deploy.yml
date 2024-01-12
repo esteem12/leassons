@@ -1,0 +1,42 @@
+---
+- hosts: demo
+  become: yes
+  vars_files:
+    - deployvars.yml
+  tasks:
+  # Setup prerequisite
+  - name: Install python-pip library  
+    apt: name='{{item}}'
+    with_items:
+     - python-setuptools
+     - python3-pip
+     - python-dev
+  - name: Install Docker Python Library
+    pip: name=docker-py
+  # Setup Docker Login
+  - name: Login to Docker Registry
+    docker_login:
+       username: "{{dockerhubuser}}"
+       password: "{{dockerhubpassword}}"
+       email: scmlearningcentre@gmail.com
+  # Copy the Configuration Manifest to Kubernetes Master
+  - name: Copy the Configmap yaml
+    template:
+      src: configmap.j2
+      dest: configmap.yml
+  - name: Copy the Deployment Manifest
+    template:
+      src: sampledeployment.j2
+      dest: sampledeployment.yml
+  - name: Copy the Namespace yaml
+    template:
+      src: namespace.j2
+      dest: namespace.yml
+
+  # Deploy Manifest files
+  - name: Deploy Kubernetes Manifest files
+    command: kubectl --kubeconfig /home/ubuntu/.kube/config apply -f {{item}}
+    with_items:
+       - namespace.yml
+       - configmap.yml
+       - sampledeployment.yml

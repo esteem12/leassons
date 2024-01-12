@@ -1,0 +1,10 @@
+#------------------------------------------------------------#
+ 1. Make sure the following cmds are executed on a minikube 
+    cluster so that you will be able to connect to ECR    
+ $ minikube addons configure registry-creds                 
+   - On the above give the AWS credentials for ECR                 
+ $ minikube addons enable registry-creds                    
+   - this would create a secret object by name awsecr-cred
+
+ 2. Create a EBS volume and update in the Persistentvolume 
+    config

@@ -1,0 +1,5 @@
+deployenv: demo
+dbhost: testserver
+dbuser: adam
+deployImage: demoapp
+dockerhubuser: adamtravis

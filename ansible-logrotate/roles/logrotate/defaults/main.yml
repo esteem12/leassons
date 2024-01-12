@@ -1,0 +1,26 @@
+---
+  logrotate_conf_dir: "/etc/logrotate.d/"
+  logrotate_scripts:
+    - name: wezvaapp
+      log_dir: '/var/log/wezvaapp'
+      log_extension: 'log'
+      options:
+        - rotate 7
+        - weekly
+        - size 10M
+        - missingok
+        - compress
+        - create 0644 ubuntu ubuntu
+      scripts:
+          postrotate: "rm /var/log/*.log  2>/dev/null || true"
+    - name: temp
+      log_dir: '/tmp'
+      log_extension: '*'
+      options:
+        - su root root
+        - rotate 1
+        - daily
+        - size 100M
+        - missingok
+        - compress
+        - create 0777 root root
